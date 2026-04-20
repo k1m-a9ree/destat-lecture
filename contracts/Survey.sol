@@ -16,10 +16,17 @@ contract Survey {
     string public description;
     uint256 public targetNumber;
     uint256 public rewardAmount;
+    bool testFlag;
+    int16 testInteger;
     Question[] public questions;
     Answer[] answers;
 
-    constructor(string memory _title, string memory _description, Question[] memory _questions, uint256 _targetNumber) payable {
+    constructor(
+        string memory _title, 
+        string memory _description, 
+        Question[] memory _questions, 
+        uint256 _targetNumber
+    ) payable {
         title = _title;
         description = _description;
         targetNumber = _targetNumber;
@@ -39,7 +46,7 @@ contract Survey {
 
     function submitAnswer(Answer calldata _answer) external {
         require(_answer.answers.length == questions.length, "Mismatched answers length");
-        require(answers.length <= targetNumber, 'This survey has been ended');
+        require(answers.length < targetNumber, 'This survey has been ended');
 
         answers.push(Answer({
             respondent:_answer.respondent,
